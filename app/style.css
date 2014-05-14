@@ -1,0 +1,60 @@
+body {
+  cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+
+/*
+ * http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
+ */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+
+.button.button-icon.input-button {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  color: #bbb;
+}
+.item img {
+  height: 60px;
+  width: 60px;
+  float: left;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+.list .my-item.item {
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+
+.dash-list a{
+  color: #333;
+  text-decoration: none;
+}
+.dash-op i {
+  display: inline-block;
+  padding: 5px;
+  font-size: 32px;
+  vertical-align: middle;
+  margin-top: -4px;
+}
+
+.order-ctn {
+  line-height: 30px;
+  padding: 0 10px;
+  width: 100%;
+}

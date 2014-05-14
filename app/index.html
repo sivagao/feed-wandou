@@ -1,0 +1,154 @@
+<html ng-app="ionicApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>喂豌豆 - Mobile</title>
+
+    <link href="http://code.ionicframework.com/1.0.0-beta.4/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.ionicframework.com/1.0.0-beta.4/js/ionic.bundle.js"></script>
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <!-- <ion-header-bar class="bar-positive">
+      <h1 class="title">喂豌豆</h1>
+    </ion-header-bar> -->
+
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+        <ion-nav-back-button class="button-icon ion-arrow-left-c">
+        </ion-nav-back-button>
+        <h1 class="title"></h1>
+        <a class="button pull-right" ng-href="#/profile">
+          我的订单
+        </a>
+    </ion-nav-bar>
+
+    <ion-nav-view></ion-nav-view>
+    <ion-footer-bar align-title="left" class="bar-dark" style="background-color: rgba(68, 68, 68, 0.82)" ng-controller="orderCtrl">
+      <!-- TODO: 如何查看当前订单？！ - click popup to show order list? -->
+      <div class="order-ctn">
+        <span ng-if="!todayOrder.sum">今天是不吃饭的节奏吗？！</span>
+        <span ng-if="todayOrder.sum">已点{{todayOrder.dashes.length}}道菜，共{{todayOrder.sum}}元</span>
+        <button ng-if="todayOrder.sum" class="button" style="float: right" ng-click="haveOrderHandler()">下单</button>
+      </div>
+    </ion-footer-bar>
+
+    <script id="restaurants.html" type="text/ng-template">
+      // TODO 美化页面
+      <ion-view title="餐厅列表" left-buttons="leftButtons">
+      <ion-content>
+        <!-- 新品推荐 -->
+        <ion-list>
+          <div ng-repeat="restaurant in restaurants">
+            <!-- TODO: add thumbnail, other description -->
+            <ion-item class="item-stable"
+                ng-click="viewRestaurant(restaurant)">
+                <i class="icon ion-minus"></i>
+              &nbsp;
+              餐厅 {{restaurant.name}}
+            </ion-item>
+          </div>
+        </ion-list>
+      </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="restaurant.html" type="text/ng-template">
+      <ion-view title="餐厅详情" left-buttons="leftButtons">
+      <ion-content>
+        <div class="dash-list list">
+          <div class="item my-item"
+            collection-repeat="item in viewDashes"
+            collection-item-height="getItemHeight(item)"
+            collection-item-width="'100%'"
+            ng-style="{'line-height': getItemHeight(item) + 'px'}"
+            ng-class="{'item-divider': item.isCategory}">
+            <a ng-href="#/dash/{{item.name}}">
+                <img ng-if="!item.isCategory" ng-src="http://placebox.es/60/{{55 + ($index % 10)}}">
+                {{item.category || (item.name+'  '+item.price+'元/份')}}
+            </a>
+            <div class="dash-op" style="float: right; margin-right: 20px" ng-if="!item.isCategory">
+              <i class="ion-minus-circled" ng-click="countHandler(item, 'minus')"></i>
+              <span>{{item.count}}</span>
+              <i class="ion-plus-circled" ng-click="countHandler(item, 'plus')"></i>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="profile.html" type="text/ng-template">
+      <ion-view title="个人页" left-buttons="leftButtons">
+      <ion-content>
+        <div class="list card">
+              <div class="item item-avatar">
+                <img src="http://placekitten.com/100/100" style="margin-top: 0">
+                <h2>高海浪</h2>
+                <p>迄今为止，喂豌豆请你吃过101顿餐，一共￥801大洋</p>
+              </div>
+
+              <div class="item item-body" style="text-align: right;">
+                <h3 style="text-align: center;">今天订单 - 2014年05月15日</h3>
+                <ul>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                </ul>
+                <p>
+                  <button class="button" style="float: left;line-height: 20px;font-size: 12px;min-height: 28px;" ng-click="haveOrderHandler()">不吃了</button>
+                  <button class="button" style="float: left;line-height: 20px;font-size: 12px;min-height: 28px;" ng-click="haveOrderHandler()">送人了</button>
+                  共计： 40元</p>
+              </div>
+              <div class="item item-body" style="text-align: right;">
+                <h3 style="text-align: center;">历史订单 - 2014年05月15日</h3>
+                <ul>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                </ul>
+                <p>共计： 40元</p>
+              </div>
+
+              <div class="item item-body" style="text-align: right;">
+                <h3 style="text-align: center;">历史订单 - 2014年05月15日</h3>
+                <ul>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                </ul>
+                <p>共计： 40元</p>
+              </div>
+              <div class="item item-body" style="text-align: right;">
+                <h3 style="text-align: center;">历史订单 - 2014年05月15日</h3>
+                <ul>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                  <li>上海小杨生煎包 小插曲 * 1</li>
+                </ul>
+                <p>共计： 40元</p>
+              </div>
+
+              <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" href="#">
+                  <i class="icon ion-thumbsup"></i>
+                  Like
+                </a>
+                <a class="tab-item" href="#">
+                  <i class="icon ion-chatbox"></i>
+                  Comment
+                </a>
+                <a class="tab-item" href="#">
+                  <i class="icon ion-share"></i>
+                  Share
+                </a>
+              </div>
+            </div>
+        // 取消订单，在profile页面，还有可以送给别人吃功能
+        // 历史订单，可以重复快速点选
+      </ion-content>
+      </ion-view>
+    </script>
+  </body>
+</html>
